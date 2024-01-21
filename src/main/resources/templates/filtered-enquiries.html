@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bootstrap demo</title>
+	<!-- bootstrap css -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<!-- google font -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+		rel="stylesheet" />
+	<!-- bootstrap icons -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<!-- custom css -->
+	<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+	<tbody id="filterBody">
+		<tr th:each="enquiry: ${filterEnquiries}">
+			<td th:text="${enquiry.studentId}" />
+			<td th:text="${enquiry.studentName}" />
+			<td th:text="${enquiry.studentEmail}" />
+			<td th:text="${enquiry.studentPhno}" />
+			<td th:text="${enquiry.classMode}" />
+			<td th:text="${enquiry.courseName}" />
+			<td th:text="${enquiry.enquiryStatus}" />
+			<td>
+				<a href="#" class="btn-action-edit">Edit</a>
+				<a href="#" class="btn-action-delete">Delete</a>
+			</td>
+		</tr>
+	</tbody>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+	<script>
+		(() => {
+			'use strict'
+			const forms = document.querySelectorAll('.needs-validation')
+			Array.from(forms).forEach(form => {
+				form.addEventListener('submit', event => {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()  
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			const selectedOptions = {};
+			$('.filter-symbol').click(function (e) {
+				e.stopPropagation();
+				const columnId = $(this).data('column');
+				const filterOptions = $(this).siblings('.filter-options[data-column="' + columnId + '"]');
+				const filterSymbolOffset = $(this).position();
+				filterOptions.css({
+					top: filterSymbolOffset.top + $(this).outerHeight(),
+					right: 0
+				});
+				$('.filter-options').not(filterOptions).hide(); // Close other filter options
+				filterOptions.toggle();
+			});
+
+			$('.filter-options a').click(function (event) {
+				event.preventDefault();
+				const selectedOption = $(this).data('option');
+				const columnId = $(this).closest('.filter-options').data('column');
+				console.log('Selected Option for Column ' + columnId + ':', selectedOption);
+				if (selectedOption === 'No Filter') {
+					delete selectedOptions[columnId];
+				} else {
+					selectedOptions[columnId] = selectedOption;
+				}
+				performAjaxCall(selectedOptions);
+				$('.filter-options').hide();
+			});
+
+			$(document).click(function () {
+				$('.filter-options').hide();
+			});
+
+			function performAjaxCall(selectedOptions) {
+				console.log('Performing AJAX call with selected options:', selectedOptions);
+				$.ajax({
+					url: '/your/controller/endpoint',
+					method: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(selectedOptions),
+					success: function (response) {
+						console.log('AJAX call successful:', response);
+						$("#enqBody").hide();
+						$("#filterBody").html(response);
+					},
+					error: function (error) {
+						console.error('AJAX call error:', error);
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>
