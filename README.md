@@ -10,3 +10,4 @@ Moreover, the project incorporates a comprehensive dashboard that provides a con
 In summary, this project addresses the intricate dynamics of student management by focusing on fundamental aspects such as authentication, inquiry management, and counselor-specific functionalities. The inclusion of a centralized dashboard elevates the project's utility by providing a holistic perspective on system performance and key metrics, ultimately contributing to a more streamlined and effective educational management system.
 # student-management-system
 # student-management-system
+# Student_Management_System
