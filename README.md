@@ -11,3 +11,4 @@ In summary, this project addresses the intricate dynamics of student management 
 # student-management-system
 # student-management-system
 # Student_Management_System
+# student_management_app
