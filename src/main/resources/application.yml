@@ -1,6 +1,6 @@
 spring:
   datasource:
-    password: 19911A0413@i
+    password: root
     url: jdbc:mysql://localhost:3306/mini_project
     username: root
   jpa:
@@ -9,7 +9,7 @@ spring:
     show-sql: true
   mail:
     host: smtp.gmail.com
-    password: woyv hipy wfdg svnf
+    password: 
     port: 587
     properties:
       mail:
@@ -17,4 +17,4 @@ spring:
           auth: true
           starttls:
             enable: true
-    username: mohdiliyaj.learning@gmail.com
+    username: 
